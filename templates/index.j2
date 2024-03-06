@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Fleet Tools</title>
+        <link rel="stylesheet" href="../static/index.css">
+        <script src = "https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src = "../static/index.js"></script>
+    </head>
+    <body>
+        <div class = "left-column">
+            <h1>Fleet Tools</h1>
+            <p>by American Pacific</p>
+            <h3>Selected Game:</h3>
+            {% if game %}
+                <p id="game-label">{{ game }}</p>
+            {% else %}
+                <p id="game-label">None</p>
+            {% endif %}            
+        </div>
+        <div class = "main">
+            <h1>Hello! 👋</h1>
+            <p>Welcome to fleet tools for Airline Club and MyFly Club by American Pacific.</p>
+            <p>If you've never played the games, you should check out <a href="https://www.airline-club.com">Airline Club</a> and <a href="https://myfly.club">MyFly.Club</a></p>
+            <h2>Using Fleet Tools:</h2>
+            <p>Some of the fleet tools require specificying two dates to compare, but not all. All of them require you select a game though, so you should do that.</p>
+            <div class="game-select">
+                <h3>Select the game you want to use:</h3>
+                <button type="button", id="ac">
+                    AC
+                </button>
+                <button type="button", id="mfc">
+                    MFC
+                </button>
+            </div>
+        </div>
+    </body>
+</html>

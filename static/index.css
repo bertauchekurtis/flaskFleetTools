@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    height: 100vh;
+}
+
+.left-column {
+    width: 20%;
+    background-color: midnightblue;
+    color: white;
+    text-align: center;
+}
+
+.main {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+button {
+    padding: 15px 40px;
+    font-size: 20px;
+    border-radius: 4px;
+    background-color: midnightblue;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color:navy;
+}
+
+.game-select button {
+    margin: 0px 20px;
+}
