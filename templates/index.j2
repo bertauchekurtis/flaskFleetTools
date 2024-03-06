@@ -32,6 +32,28 @@
                     MFC
                 </button>
             </div>
+            <div class="date-select">
+                <div class="select-start-date">
+                    {% if game %}
+                        <h3>Select earlier date for comparision:</h3>
+                        {% for date in dates %}
+                            <button type="button" id="{{ date[0] }}{{ date[1 ]}}{{ date[2] }}start">
+                                {{ date[0] }} {{ date[1] }}, {{ date[2]}}
+                            </button>
+                        {% endfor %}
+                    {% endif%}
+                </div>
+                <div class="select-end-date">
+                    {% if game %}
+                        <h3>Select later date for comparision:</h3>
+                        {% for date in dates %}
+                             <button type="button" id="{{ date[0] }}{{ date[1 ]}}{{ date[2] }}end">
+                                {{ date[0] }} {{ date[1] }}, {{ date[2]}}
+                            </button>
+                        {% endfor %}
+                    {% endif%}
+                </div>
+            </div>
         </div>
     </body>
 </html>

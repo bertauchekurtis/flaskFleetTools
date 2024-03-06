@@ -1,4 +1,5 @@
 from flask import Flask, render_template, session, request
+import fleetData as fd
 
 app = Flask(__name__)
 app.secret_key = 'very_secret_key'
@@ -6,7 +7,8 @@ app.secret_key = 'very_secret_key'
 @app.route("/")
 def index():
     if 'game' in session:
-        return render_template("index.j2", game = session['game'])
+        availableDates = fd.getDateTupleList(session['game'])
+        return render_template("index.j2", game = session['game'], dates = availableDates)
     else:
         return render_template("index.j2")
 

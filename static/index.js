@@ -25,4 +25,13 @@ $(document).ready(function() {
         $('#game-label').text("MFC");
     })
 
+    $('.select-start-date button').click(function() {
+        console.log("button clickeD!");
+        var thisId = $(this).attr('id');
+        console.log(thisId);
+    });
+
+    $('.select-end-date button').click(function() {
+        console.log("button clickeD!");
+    });
 });
