@@ -15,3 +15,10 @@ def getDateTupleList(game = None):
             tupleList.append((month, day, year, thisDateTime))
         return sorted(tupleList, key = lambda x: x[3], reverse = True)
     return False
+
+def convertStringToDateTime(string):
+    thisDateTime = datetime.strptime(string, "%b%d%Y")
+    return thisDateTime
+
+def convertDateTimeToLabel(date: datetime):
+    return date.strftime("%b %d, %Y")

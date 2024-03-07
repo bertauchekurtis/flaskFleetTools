@@ -1,37 +1,50 @@
 // index.js
 
-function setSessionVar(variable, val) {
+function setGame(variable, val) {
     $.ajax({
         type: 'POST',
-        url: '/set_session_variable?var=' + variable + '&val=' + val,
+        url: '/set_game?var=' + variable + '&val=' + val,
         success: function(response) {
-            console.log("Succesfully updated " + variable + " to " + val)
+            console.log("Succesfully updated " + variable + " to " + val);
+            window.location.reload();
         },
         error: function(error) {
-            console.log("Didn't work.")
+            console.log("setGame() Didn't work.")
         }
-    })
+    });
+}
+
+function setDate(dateString, type) {
+    $.ajax({
+        type: 'POST',
+        url: '/set_date?date=' + dateString + "&type=" + type,
+        success: function(response) {
+            console.log("Succesfully update " + dateString + " to " + type);
+            window.location.reload();
+        },
+        error: function(error) {
+            console.log("setDate() Didn't work.")
+        }
+    });
 }
 
 $(document).ready(function() {
 
     $('.game-select #ac').click(function() {
-        setSessionVar('game', 'AC');
-        $('#game-label').text("AC");
+        setGame('game', 'AC');
     });
 
     $('.game-select #mfc').click(function() {
-        setSessionVar('game', 'MFC');
-        $('#game-label').text("MFC");
+        setGame('game', 'MFC');
     })
 
     $('.select-start-date button').click(function() {
-        console.log("button clickeD!");
         var thisId = $(this).attr('id');
-        console.log(thisId);
+        setDate(thisId, "start")
     });
 
     $('.select-end-date button').click(function() {
-        console.log("button clickeD!");
+        var thisId = $(this).attr('id');
+        setDate(thisId, "end")
     });
 });
