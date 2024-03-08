@@ -48,6 +48,19 @@ function toggleAircraftTables(tableToShow) {
     }
 }
 
+function toggleFleetTables(tableToShow) {
+    const tableids = ["top-20-fleet-table","fastest-growing-fleets-table","fastest-shrinking-fleets-table","raw-fleet-table"]
+    indexToShow = tableids.indexOf(tableToShow);
+    tableids.splice(indexToShow, 1);
+    var divToShow = document.getElementById(tableToShow);
+    divToShow.style.display = 'block';
+    for(var i = 0; i < tableids.length; i++) {
+        console.log(tableids[i]);
+        var divToHide = document.getElementById(tableids[i]);
+        divToHide.style.display = 'none';
+    }
+}
+
 $(document).ready(function() {
 
     $('.game-select #ac').click(function() {
@@ -79,5 +92,10 @@ $(document).ready(function() {
     $('#circulation-tables-buttons button').click(function() {
         var thisButtonId = $(this).attr('class');
         toggleAircraftTables(thisButtonId);
+    })
+
+    $('#fleet-tables-buttons button').click(function() {
+        var thisButtonId = $(this).attr('class');
+        toggleFleetTables(thisButtonId);
     })
 });

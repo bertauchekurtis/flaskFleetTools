@@ -1,0 +1,27 @@
+{% extends "index.j2" %}
+{% block content %}
+    {% if startDateLabel == endDateLabel %}
+        <p>The selected dates must be different to use this tool.</p>
+    {% else %}
+        <h1>Discord Message</h1>
+        <hr>
+        <p>**PUT DATE HERE Fleet Report** (1/2)<br>NOTE GOES HERE</p>
+        <p>**REMINDER: **I only use airlines that have been active in the past 30 days for this report. Why? It seems more relevant to me to know what airlines are up to today rather than 3 months ago.</p>
+        <p>**Top 10 Aircraft by Number Owned**<br>
+        {% if mostPopularAircraftDf is not none %}
+            {% for (_, rank, plane, old, new, change) in mostPopularAircraftDf.loc[mostPopularAircraftDf['Rank'] <= 10].itertuples(name=None) %}
+                {% if change > 0 %}
+                    {{rank}}. {{plane}} - {{new}} | :arrow_up_small: {{change}} <br>
+                {% elif change < 0 %}
+                    {{rank}}. {{plane}} - {{new}} | :small_red_triangle_down: {{(change|string)[1:]}} <br>
+                {% else %}
+                    {{rank}}. {{plane}} - {{new}} | {{change}} <br>
+                {% endif %}    
+            {% endfor %}
+
+        <p>Total Aircraft Owned: {{mostPopularAircraftDf['New Total'].sum()}}</p>
+        {% endif %}
+    
+        </p>
+    {% endif %}
+{% endblock %}

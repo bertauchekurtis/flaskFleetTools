@@ -38,7 +38,6 @@ def getCirculationDfs(startDate: datetime, endDate: datetime, game):
     oldCondensed = createCondensedDF(oldData)
     newCondensed = createCondensedDF(newData)
 
-    rawCirculationDf = createRawCirculationChangesDF(oldCondensed, newCondensed)
     mostPopularAircraftDf = createMostPopularAircraftDf(oldCondensed, newCondensed)
     print(mostPopularAircraftDf)
     biggestChangesAircraftDf = createBiggestChangesAircraftDf(mostPopularAircraftDf)
@@ -48,9 +47,6 @@ def getCirculationDfs(startDate: datetime, endDate: datetime, game):
     fastestShrinkingAircraftdf = createFastestShrinkingPopularityAircraftDf(mostPopularAircraftDf)
     print(fastestShrinkingAircraftdf)
     return(mostPopularAircraftDf, biggestChangesAircraftDf, fastestGrowingAircraftDf, fastestShrinkingAircraftdf)
-
-
-
 
 def createCondensedDF(frame: pd.DataFrame):
     df = frame.copy()
@@ -105,3 +101,39 @@ def createFastestShrinkingPopularityAircraftDf(mostPopularDf: pd.DataFrame):
     df["Rank"] = df["Change"].rank(ascending = True, method = "max")
     df["Rank"] = df["Rank"].astype(int)
     return df
+
+def getFleetDfs(startDate: datetime, endDate: datetime, game):
+    oldFileName = getFileName(startDate, game)
+    newFileName = getFileName(endDate, game)
+    oldData = pd.read_csv("./data/" + game + "/" + oldFileName)
+    newData = pd.read_csv("./data/" + game + "/" + newFileName)
+    largestFleetsDf = createLargestFleetsDf(oldData, newData)
+    fastestGrowingFleetsDf = createLargestGrowingFleetsDf(largestFleetsDf)
+    fastestShrinkingFleetsDf = createLargestShrinkingFleetsDf(largestFleetsDf)
+    return (largestFleetsDf, fastestGrowingFleetsDf, fastestShrinkingFleetsDf)
+
+def createLargestFleetsDf(oldData: pd.DataFrame, newData: pd.DataFrame):
+    old_largest = pd.DataFrame({'Airline': oldData['Airline'], 'Old Total': oldData['Total']})
+    new_largest = pd.DataFrame({'Airline': newData['Airline'], 'New Total': newData['Total']})
+    combined = pd.merge(old_largest, new_largest, on = 'Airline', how = 'outer')
+    combined = combined.fillna(0)
+    combined['New Total'] = combined["New Total"].astype(int)
+    combined['Old Total'] = combined["Old Total"].astype(int)
+    combined["Change"] = combined["New Total"] - combined["Old Total"]
+    combined = combined.sort_values(by = "New Total", ascending = False)
+    combined["Rank"] = combined["New Total"].rank(ascending = False, method = "max").astype(int)
+    return combined.loc[:,["Rank", "Airline", "Old Total", "New Total", "Change"]]
+
+def createLargestGrowingFleetsDf(largestFleetsDf: pd.DataFrame):
+    df = largestFleetsDf.copy()
+    df = df.sort_values(by = "Change", ascending = False)
+    df["Rank"] = df["Change"].rank(ascending = False, method = "max").astype(int)
+    return df
+
+def createLargestShrinkingFleetsDf(largestFleetsDf: pd.DataFrame):
+    df = largestFleetsDf.copy()
+    df = df.sort_values(by = "Change", ascending = True)
+    df["Rank"] = df["Change"].rank(ascending = True, method = "max").astype(int)
+    return df
+
+

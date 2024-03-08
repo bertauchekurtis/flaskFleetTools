@@ -3,28 +3,25 @@
     {% if startDateLabel == endDateLabel %}
         <p>The selected dates must be different to use this tool.</p>
     {% else %}
-        <h1>Circulation Changes</h1>
-            <div id="circulation-tables-buttons">
-                <button type="button" class="top-20-table">
-                    Top 20 Most Popular
+        <h1>Fleet Changes</h1>
+            <div id="fleet-tables-buttons">
+                <button type="button" class="top-20-fleet-table">
+                    Top 20 Fleets
                 </button>
-                <button type="button" class="biggest-popularity-changes-table">
-                    Top 20 Changes in Popularity
-                </button>
-                <button type="button" class="fastest-growing-aircraft-table">
+                <button type="button" class="fastest-growing-fleets-table">
                     Top 20 Fastest Growing
                 </button>
-                <button type="button" class="fastest-shrinking-aircraft-table">
+                <button type="button" class="fastest-shrinking-fleets-table">
                     Top 20 Fastest Shrinking
                 </button>
-                <button type="button" class="raw-aircraft-table">
-                    All Data
+                <button type="button" class="raw-fleet-table">
+                    All Fleet Data
                 </button>
             </div>
             <div id="circulation-tables">
-                <div id="top-20-table">
+                <div id="top-20-fleet-table">
                     {% if top20df is not none %}
-                        <h1>Top 20 Most Popular Aircraft</h1>
+                        <h1>Top 20 Largest Fleets</h1>
                         <table>
                             <tr>
                                 <td>Rank</td>
@@ -33,7 +30,7 @@
                                 <td class = "center">New Count</td>
                                 <td class = "center">Change</td>
                             </tr>
-                            {% for (_, rank, plane, old, new, change) in top20df.head(20).itertuples(name=None) %}
+                            {% for (_, rank, plane, old, new, change) in largestFleetsDf.head(20).itertuples(name=None) %}
                                 <tr>
                                     <td>{{rank}}</td>
                                     <td>{{plane}}</td>
@@ -45,9 +42,9 @@
                         </table>
                     {% endif %}
                 </div>
-                <div id="biggest-popularity-changes-table" style="display:none">
+                <div id="fastest-growing-fleets-table" style="display:none">
                     {% if top20df is not none %}
-                        <h1>Top 20 Changes in Popularity</h1>
+                        <h1>Top 20 Fastest Growing Fleets</h1>
                         <table>
                             <tr>
                                 <td>Rank</td>
@@ -56,7 +53,7 @@
                                 <td class = "center">New Count</td>
                                 <td class = "center">Change</td>
                             </tr>
-                            {% for (_, rank, plane, old, new, change) in biggestChangesAircraftDf.head(20).itertuples(name=None) %}
+                            {% for (_, rank, plane, old, new, change) in fastestGrowingFleetsDf.head(20).itertuples(name=None) %}
                                 <tr>
                                     <td>{{rank}}</td>
                                     <td>{{plane}}</td>
@@ -68,9 +65,9 @@
                         </table>
                     {% endif %}
                 </div>
-                <div id="fastest-growing-aircraft-table" style="display:none">
+                <div id="fastest-shrinking-fleets-table" style="display:none">
                     {% if top20df is not none %}
-                        <h1>Top 20 Fastest Growing</h1>
+                        <h1>Top 20 Fastest Shrinking Fleets</h1>
                         <table>
                             <tr>
                                 <td>Rank</td>
@@ -79,7 +76,7 @@
                                 <td class = "center">New Count</td>
                                 <td class = "center">Change</td>
                             </tr>
-                            {% for (_, rank, plane, old, new, change) in fastestGrowingAircraftDf.head(20).itertuples(name=None) %}
+                            {% for (_, rank, plane, old, new, change) in fastestShrinkingFleetsDf.head(20).itertuples(name=None) %}
                                 <tr>
                                     <td>{{rank}}</td>
                                     <td>{{plane}}</td>
@@ -91,9 +88,9 @@
                         </table>
                     {% endif %}
                 </div>
-                <div id="fastest-shrinking-aircraft-table" style="display:none">
+                <div id="raw-fleet-table" style="display:none">
                     {% if top20df is not none %}
-                        <h1>Top 20 Fastest Shrinking</h1>
+                        <h1>All Fleets</h1>
                         <table>
                             <tr>
                                 <td>Rank</td>
@@ -102,30 +99,7 @@
                                 <td class = "center">New Count</td>
                                 <td class = "center">Change</td>
                             </tr>
-                            {% for (_, rank, plane, old, new, change) in fastestShrinkingAircraftdf.head(20).itertuples(name=None) %}
-                                <tr>
-                                    <td>{{rank}}</td>
-                                    <td>{{plane}}</td>
-                                    <td class = "center">{{old}}</td>
-                                    <td class = "center">{{new}}</td>
-                                    <td class = "center">{{change}}</td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    {% endif %}
-                </div>
-                <div id="raw-aircraft-table" style="display:none">
-                    {% if top20df is not none %}
-                        <h1>All Data</h1>
-                        <table>
-                            <tr>
-                                <td>Rank</td>
-                                <td>Aircraft</td>
-                                <td class = "center">Old Count</td>
-                                <td class = "center">New Count</td>
-                                <td class = "center">Change</td>
-                            </tr>
-                            {% for (_, rank, plane, old, new, change) in mostPopularAircraftDf.itertuples(name=None) %}
+                            {% for (_, rank, plane, old, new, change) in largestFleetsDf.itertuples(name=None) %}
                                 <tr>
                                     <td>{{rank}}</td>
                                     <td>{{plane}}</td>

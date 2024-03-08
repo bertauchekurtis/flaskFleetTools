@@ -39,7 +39,6 @@ def setDate():
 @app.route("/circulation_changes")
 def circulationChanges():
     leftColumnData = getLeftColumnInfo()
-
     mostPopularAircraftDf = None
     biggestChangesAircraftDf = None
     fastestShrinkingAircraftdf = None
@@ -47,9 +46,6 @@ def circulationChanges():
 
     if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
         mostPopularAircraftDf, biggestChangesAircraftDf, fastestGrowingAircraftDf, fastestShrinkingAircraftdf = fd.getCirculationDfs(session['start'], session['end'], session['game'])
-
-
-
 
     return render_template("circulation.j2",
                            startDateLabel = leftColumnData[0],
@@ -80,7 +76,45 @@ def getLeftColumnInfo():
     
     return(startLabel, endLabel, game, availableDates)
 
+@app.route("/fleet_changes")
+def fleetChanges():
+    leftColumnData = getLeftColumnInfo()
+
+    largestFleetsDf = None
+    fastestGrowingFleetsDf = None
+    fastestShrinkingFleetsDf = None
+
+    if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
+        largestFleetsDf, fastestGrowingFleetsDf, fastestShrinkingFleetsDf = fd.getFleetDfs(session['start'], session['end'], session['game'])
+
+    return render_template("fleets.j2",
+                           startDateLabel = leftColumnData[0],
+                           endDateLabel = leftColumnData[1],
+                           game = leftColumnData[2],
+                           largestFleetsDf = largestFleetsDf,
+                           fastestGrowingFleetsDf = fastestGrowingFleetsDf,
+                           fastestShrinkingFleetsDf = fastestShrinkingFleetsDf)
+
+
 @app.route("/clear_cookies", methods = ['POST'])
 def clearCookie():
     session.clear()
     return {"result": "success"}
+
+@app.route("/discord_message")
+def discordMessage():
+    leftColumnData = getLeftColumnInfo()
+
+    mostPopularAircraftDf = None
+    biggestChangesAircraftDf = None
+    fastestShrinkingAircraftdf = None
+    fastestGrowingAircraftDf = None
+
+    if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
+        mostPopularAircraftDf, biggestChangesAircraftDf, fastestGrowingAircraftDf, fastestShrinkingAircraftdf = fd.getCirculationDfs(session['start'], session['end'], session['game'])
+    print(mostPopularAircraftDf)
+    return render_template("discord.j2",
+                           startDateLabel = leftColumnData[0],
+                           endDateLabel = leftColumnData[1],
+                           game = leftColumnData[2],
+                           mostPopularAircraftDf = mostPopularAircraftDf)
