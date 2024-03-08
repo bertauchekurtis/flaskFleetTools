@@ -39,10 +39,27 @@ def setDate():
 @app.route("/circulation_changes")
 def circulationChanges():
     leftColumnData = getLeftColumnInfo()
+
+    mostPopularAircraftDf = None
+    biggestChangesAircraftDf = None
+    fastestShrinkingAircraftdf = None
+    fastestGrowingAircraftDf = None
+
+    if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
+        mostPopularAircraftDf, biggestChangesAircraftDf, fastestGrowingAircraftDf, fastestShrinkingAircraftdf = fd.getCirculationDfs(session['start'], session['end'], session['game'])
+
+
+
+
     return render_template("circulation.j2",
                            startDateLabel = leftColumnData[0],
                            endDateLabel = leftColumnData[1],
-                           game = leftColumnData[2])
+                           game = leftColumnData[2],
+                           mostPopularAircraftDf = mostPopularAircraftDf,
+                           biggestChangesAircraftDf = biggestChangesAircraftDf.head(20),
+                           fastestGrowingAircraftDf =fastestGrowingAircraftDf.head(20),
+                           fastestShrinkingAircraftdf = fastestShrinkingAircraftdf.head(20),
+                           top20df = mostPopularAircraftDf.head(20))
 
 def getLeftColumnInfo():
     # initialize them to none
@@ -62,3 +79,8 @@ def getLeftColumnInfo():
         endLabel = fd.convertDateTimeToLabel(session['end'])
     
     return(startLabel, endLabel, game, availableDates)
+
+@app.route("/clear_cookies", methods = ['POST'])
+def clearCookie():
+    session.clear()
+    return {"result": "success"}

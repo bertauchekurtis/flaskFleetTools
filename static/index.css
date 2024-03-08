@@ -28,6 +28,10 @@ button {
     transition: background-color 0.3s ease;
 }
 
+.selected {
+    background-color:cornflowerblue;
+}
+
 button:hover {
     background-color:navy;
 }
@@ -48,4 +52,32 @@ button:hover {
 
 .date-select button {
     margin: 2px 10px;
+}
+
+table, tr, td {
+    border-collapse: collapse;
+    font-size: 20px;
+    padding: 7px 10px;
+    border-bottom: 1px solid;
+}
+
+table {
+    width: 100%;
+}
+
+tr:hover {
+    background-color: azure;
+}
+
+.center {
+    text-align: center;
+}
+
+#circulation-tables {
+    width: 90%;
+}
+
+#circulation-tables-buttons button {
+    margin-left: 20px;
+    margin-bottom: 20px;
 }

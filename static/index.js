@@ -28,6 +28,26 @@ function setDate(dateString, type) {
     });
 }
 
+function clearCoookies() {
+    $.ajax({
+        type: 'POST',
+        url: '/clear_cookies',
+    });
+}
+
+function toggleAircraftTables(tableToShow) {
+    const tableids = ["top-20-table","biggest-popularity-changes-table","fastest-growing-aircraft-table","fastest-shrinking-aircraft-table","raw-aircraft-table"];
+    indexToShow = tableids.indexOf(tableToShow);
+    tableids.splice(indexToShow, 1);
+    var divToShow = document.getElementById(tableToShow);
+    divToShow.style.display = 'block';
+    for(var i = 0; i < tableids.length; i++) {
+        console.log(tableids[i]);
+        var divToHide = document.getElementById(tableids[i]);
+        divToHide.style.display = 'none';
+    }
+}
+
 $(document).ready(function() {
 
     $('.game-select #ac').click(function() {
@@ -47,4 +67,17 @@ $(document).ready(function() {
         var thisId = $(this).attr('id');
         setDate(thisId, "end")
     });
+
+    $('.home-button').click(function() {
+        window.location.href = "/";
+    })
+
+    $('#cookie').click(function() {
+        clearCoookies();
+    })
+
+    $('#circulation-tables-buttons button').click(function() {
+        var thisButtonId = $(this).attr('class');
+        toggleAircraftTables(thisButtonId);
+    })
 });

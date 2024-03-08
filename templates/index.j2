@@ -8,7 +8,9 @@
     </head>
     <body>
         <div class = "left-column">
-            <h1>Fleet Tools</h1>
+            <div class="home-button">
+                <h1>Fleet Tools</h1>
+            </div>
             <p>by American Pacific</p>
             <h3>Selected Game:</h3>
             {% if game is not none %}
@@ -41,8 +43,11 @@
             <button type="button">
                 Airline Search
             </button>
-            <button>
+            <button type="button">
                 Aircraft Search
+            </button>
+            <button type="button" id = "cookie">
+                Clear Cookies
             </button>
         </div>      
         <div class = "main">

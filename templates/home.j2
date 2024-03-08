@@ -20,9 +20,15 @@
                         {% if dates is not none %}
                             <h3>Select earlier date for comparision:</h3>
                             {% for date in dates %}
-                                <button type="button" id="{{ date[0] }}{{ date[1 ]}}{{ date[2] }}">
-                                    {{ date[0] }} {{ date[1] }}, {{ date[2]}}
-                                </button>
+                                {% if startDateLabel is not none and (date[0], date[1], date[2]) == (startDateLabel[0:3], startDateLabel[4:6], startDateLabel[8:12])%}
+                                    <button type="button" id="{{ date[0] }}{{ date[1] }}{{ date[2] }}" class = "selected">
+                                        {{ date[0] }} {{ date[1] }}, {{ date[2]}}
+                                    </button>
+                                {% else %}
+                                    <button type="button" id="{{ date[0] }}{{ date[1] }}{{ date[2] }}">
+                                        {{ date[0] }} {{ date[1] }}, {{ date[2]}}
+                                    </button>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     {% endif%}
@@ -32,9 +38,15 @@
                         {% if dates is not none %}
                             <h3>Select later date for comparision:</h3>
                             {% for date in dates %}
-                                <button type="button" id="{{ date[0] }}{{ date[1 ]}}{{ date[2] }}">
-                                    {{ date[0] }} {{ date[1] }}, {{ date[2]}}
-                                </button>
+                                {% if endDateLabel is not none and (date[0], date[1], date[2]) == (endDateLabel[0:3], endDateLabel[4:6], endDateLabel[8:12])%}
+                                    <button type="button" id="{{ date[0] }}{{ date[1] }}{{ date[2] }}" class = "selected">
+                                        {{ date[0] }} {{ date[1] }}, {{ date[2]}}
+                                    </button>
+                                {% else %}
+                                    <button type="button" id="{{ date[0] }}{{ date[1] }}{{ date[2] }}">
+                                        {{ date[0] }} {{ date[1] }}, {{ date[2]}}
+                                    </button>
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     {% endif%}
