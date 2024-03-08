@@ -56,10 +56,10 @@ def circulationChanges():
                            endDateLabel = leftColumnData[1],
                            game = leftColumnData[2],
                            mostPopularAircraftDf = mostPopularAircraftDf,
-                           biggestChangesAircraftDf = biggestChangesAircraftDf.head(20),
-                           fastestGrowingAircraftDf =fastestGrowingAircraftDf.head(20),
-                           fastestShrinkingAircraftdf = fastestShrinkingAircraftdf.head(20),
-                           top20df = mostPopularAircraftDf.head(20))
+                           biggestChangesAircraftDf = biggestChangesAircraftDf,
+                           fastestGrowingAircraftDf =fastestGrowingAircraftDf,
+                           fastestShrinkingAircraftdf = fastestShrinkingAircraftdf,
+                           top20df = mostPopularAircraftDf)
 
 def getLeftColumnInfo():
     # initialize them to none

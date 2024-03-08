@@ -33,7 +33,7 @@
                                 <td class = "center">New Count</td>
                                 <td class = "center">Change</td>
                             </tr>
-                            {% for (_, rank, plane, old, new, change) in top20df.itertuples(name=None) %}
+                            {% for (_, rank, plane, old, new, change) in top20df.head(20).itertuples(name=None) %}
                                 <tr>
                                     <td>{{rank}}</td>
                                     <td>{{plane}}</td>
@@ -56,7 +56,7 @@
                                 <td class = "center">New Count</td>
                                 <td class = "center">Change</td>
                             </tr>
-                            {% for (_, rank, plane, old, new, change) in biggestChangesAircraftDf.itertuples(name=None) %}
+                            {% for (_, rank, plane, old, new, change) in biggestChangesAircraftDf.head(20).itertuples(name=None) %}
                                 <tr>
                                     <td>{{rank}}</td>
                                     <td>{{plane}}</td>
@@ -79,7 +79,7 @@
                                 <td class = "center">New Count</td>
                                 <td class = "center">Change</td>
                             </tr>
-                            {% for (_, rank, plane, old, new, change) in fastestGrowingAircraftDf.itertuples(name=None) %}
+                            {% for (_, rank, plane, old, new, change) in fastestGrowingAircraftDf.head(20).itertuples(name=None) %}
                                 <tr>
                                     <td>{{rank}}</td>
                                     <td>{{plane}}</td>
@@ -102,7 +102,7 @@
                                 <td class = "center">New Count</td>
                                 <td class = "center">Change</td>
                             </tr>
-                            {% for (_, rank, plane, old, new, change) in fastestShrinkingAircraftdf.itertuples(name=None) %}
+                            {% for (_, rank, plane, old, new, change) in fastestShrinkingAircraftdf.head(20).itertuples(name=None) %}
                                 <tr>
                                     <td>{{rank}}</td>
                                     <td>{{plane}}</td>
