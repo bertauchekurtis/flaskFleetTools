@@ -39,13 +39,9 @@ def getCirculationDfs(startDate: datetime, endDate: datetime, game):
     newCondensed = createCondensedDF(newData)
 
     mostPopularAircraftDf = createMostPopularAircraftDf(oldCondensed, newCondensed)
-    print(mostPopularAircraftDf)
     biggestChangesAircraftDf = createBiggestChangesAircraftDf(mostPopularAircraftDf)
-    print(biggestChangesAircraftDf.head(20))
     fastestGrowingAircraftDf = createFastestGrowingPopularityAircraftDf(mostPopularAircraftDf)
-    print(fastestGrowingAircraftDf)
     fastestShrinkingAircraftdf = createFastestShrinkingPopularityAircraftDf(mostPopularAircraftDf)
-    print(fastestShrinkingAircraftdf)
     return(mostPopularAircraftDf, biggestChangesAircraftDf, fastestGrowingAircraftDf, fastestShrinkingAircraftdf)
 
 def createCondensedDF(frame: pd.DataFrame):

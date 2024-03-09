@@ -18,10 +18,76 @@
                     {{rank}}. {{plane}} - {{new}} | {{change}} <br>
                 {% endif %}    
             {% endfor %}
-
-        <p>Total Aircraft Owned: {{mostPopularAircraftDf['New Total'].sum()}}</p>
+                <br>
+            {% if (mostPopularAircraftDf['New Total'].sum() - mostPopularAircraftDf['Old Total'].sum() > 0) %}
+                <p>Total Aircraft Owned: {{mostPopularAircraftDf['New Total'].sum()}} | :arrow_up_small:</p>
+            {% elif (mostPopularAircraftDf['New Total'].sum() - mostPopularAircraftDf['Old Total'].sum()  < 0) %}
+                <p>Total Aircraft Owned: {{mostPopularAircraftDf['New Total'].sum()}} | :small_red_triangle_down:</p>
+            {% else %}
+                <p>Total Aircraft Owned: {{mostPopularAircraftDf['New Total'].sum()}} | No Change</p>
+            {% endif %}
         {% endif %}
-    
+        {% if biggestChangesAircraftDf is not none %}
+            <p>**Top Changes in Popularity for Aircraft**<br>
+            {% for (_, rank, plane, old, new, change) in biggestChangesAircraftDf.loc[biggestChangesAircraftDf['Rank'] <= 10].itertuples(name = None)%}
+                {% if change > 0 %}
+                    {{rank}}. {{plane}} - {{new}} | :arrow_up_small: {{change}} <br>
+                {% elif change < 0 %}
+                    {{rank}}. {{plane}} - {{new}} | :small_red_triangle_down: {{(change|string)[1:]}} <br>
+                {% else %}
+                    {{rank}}. {{plane}} - {{new}} | {{change}} <br>
+                {% endif %}  
+            {% endfor %}
+        {% endif %}
+        <br><br>
+        <p>**PUT DATE HERE Fleet Report** (2/2)<br><br>
+        **Top 10 Airlines by Fleet Size**
+        <br>
+        <br>
+        **WARNING: Do not make any attempts to manipulate this report by purchasing excess aircraft for the sole purpose of getting onto the report. Doing so is against game rules and will incur punishment.**<br><br>
+        {% if largestFleetsDf is not none %}
+            {% for (_, rank, airline, old, new, change, oldrank) in largestFleetsDf.loc[largestFleetsDf['Rank'] <= 10].itertuples(name=None) %}
+                {% if oldrank < rank %}
+                    {{rank}}. :small_red_triangle_down:
+                {% elif oldrank > rank %}
+                    {{rank}}. :arrow_up_small:
+                {% else %}
+                    {{rank}}. 
+                {% endif %}
+                {% if change > 0 %}
+                    {{airline}} :flag_: {{new}} | :arrow_up_small: {{change}} <br>
+                {% elif change < 0 %}
+                    {{airline}} :flag_: {{new}} | :small_red_triangle_down: {{(change|string)[1:]}} <br>
+                {% else %}
+                    {{airline}} :flag_: {{new}} | no change <br>
+                {% endif %}    
+            {% endfor %}
+        {% endif %}
+        <br>
+        **Fastest Dropping Fleets**
+        <br>
+        {% if fastestShrinkingFleetsDf is not none %}
+            {% for (_, rank, airline, old, new, change) in fastestShrinkingFleetsDf.loc[fastestShrinkingFleetsDf['Rank'] <= 10].itertuples(name = None) %}
+                {{rank}}. {{airline}} - {{new}} | :small_red_triangle_down: {{change}} <br>
+            {% endfor %}
+        {% endif %}
+        <br>
+        **Fastest Growing Fleets**
+        <br>
+        {% if fastestGrowingFleetsDf is not none %}
+            {% for (_, rank, airline, old, new, change) in fastestGrowingFleetsDf.loc[fastestGrowingFleetsDf['Rank'] <= 10].itertuples(name = None) %}
+                {{rank}}. {{airline}} - {{new}} | :arrow_up_small: {{change}} <br>
+            {% endfor %} 
+        {% endif %}
+        <br>
+        Previous Report:
+        <br>
+        LINK GOES HERE
+        <br>
+        <br>
+        (And of course, let me know if I made a mistake, and I'll fix it.)
+        <br>
+        <br>
         </p>
     {% endif %}
 {% endblock %}

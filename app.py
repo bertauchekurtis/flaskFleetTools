@@ -1,6 +1,7 @@
 from flask import Flask, render_template, session, request, redirect, url_for
 import fleetData as fd
 from datetime import datetime
+import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = 'very_secret_key'
@@ -107,14 +108,21 @@ def discordMessage():
 
     mostPopularAircraftDf = None
     biggestChangesAircraftDf = None
-    fastestShrinkingAircraftdf = None
-    fastestGrowingAircraftDf = None
+    largestFleetsDf = None
+    fastestGrowingFleetsDf = None
+    fastestShrinkingFleetsDf = None
 
     if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
-        mostPopularAircraftDf, biggestChangesAircraftDf, fastestGrowingAircraftDf, fastestShrinkingAircraftdf = fd.getCirculationDfs(session['start'], session['end'], session['game'])
-    print(mostPopularAircraftDf)
+        mostPopularAircraftDf, biggestChangesAircraftDf, _, _ = fd.getCirculationDfs(session['start'], session['end'], session['game'])
+        largestFleetsDf, fastestGrowingFleetsDf, fastestShrinkingFleetsDf = fd.getFleetDfs(session['start'], session['end'], session['game'])
+        largestFleetsDf['Old Rank'] = largestFleetsDf["Old Total"].rank(ascending = False, method = "max")
+        fastestShrinkingFleetsDf['Change'] = abs(fastestShrinkingFleetsDf["Change"].astype(int))
     return render_template("discord.j2",
                            startDateLabel = leftColumnData[0],
                            endDateLabel = leftColumnData[1],
                            game = leftColumnData[2],
-                           mostPopularAircraftDf = mostPopularAircraftDf)
+                           mostPopularAircraftDf = mostPopularAircraftDf,
+                           biggestChangesAircraftDf = biggestChangesAircraftDf,
+                           largestFleetsDf = largestFleetsDf,
+                           fastestGrowingFleetsDf = fastestGrowingFleetsDf,
+                           fastestShrinkingFleetsDf = fastestShrinkingFleetsDf)
