@@ -193,4 +193,29 @@ def getAllAircrafts(startDate: datetime, endDate: datetime, game):
     allAircrafts = oldData.columns.tolist() + newData.columns.tolist()
     return sorted(list(set(allAircrafts)))
 
+def getAircraftTable(startDate: datetime, endDate: datetime, aircraft, game):
+    oldFileName = getFileName(startDate, game)
+    newFileName = getFileName(endDate, game)
 
+    oldData = pd.read_csv("./data/" + game + "/" + oldFileName)
+    newData = pd.read_csv("./data/" + game + "/" + newFileName)
+
+    oldData = oldData[["Airline", aircraft]]
+    newData = newData[["Airline", aircraft]]
+
+    oldData = oldData.rename(columns = {aircraft: "Old Total"})
+    newData = newData.rename(columns = {aircraft: "New Total"})
+
+    combined = pd.merge(oldData, newData, on = "Airline", how = 'outer')
+    combined = combined.fillna(0)
+    combined = combined.loc[~((combined['Old Total'] == 0.0) & (combined['New Total'] == 0.0))]
+    combined['Old Total'] = combined['Old Total'].astype(int)
+    combined['New Total'] = combined['New Total'].astype(int)
+    combined['Change'] = combined['New Total'] - combined['Old Total']
+    combined = combined.sort_values('New Total', ascending = False)
+    combined = combined.append({'Airline' : 'Total',
+                            'Old Total' : combined['Old Total'].sum(),
+                            'New Total' : combined['New Total'].sum(),
+                            'Change' : combined['Change'].sum()},
+                            ignore_index = True)
+    return(combined)

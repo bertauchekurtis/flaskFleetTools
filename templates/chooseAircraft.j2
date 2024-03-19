@@ -12,9 +12,9 @@
         </div>
         <div id = 'planes'>
             {% for key in manuDict.keys() %}
-                <div id = '{{ key }}-planes' style = "display:block;">
+                <div id = '{{ key }}-planes' style = "display:none;">
                     {% for plane in manuDict[key ]%}
-                        <button class="{{plane}}">{{plane}}</button>
+                        <button class="{{plane}}" onclick = "location.href = '/showAircraft?aircraft={{plane}}';">{{plane}}</button>
                     {% endfor %}
                 </div>
             {% endfor %}

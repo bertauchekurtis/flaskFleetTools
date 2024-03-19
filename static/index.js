@@ -73,6 +73,27 @@ function toggleAirlineButtons(letterToShow) {
     }
 }
 
+function toggleAircraftButtons(manuToShow) {
+    const planesDiv = document.getElementById('manu-buttons');
+    const allButtons = planesDiv.querySelectorAll('button');
+    const manufacturers = [];
+    allButtons.forEach(button => {
+        const thisManu = button.getAttribute('class');
+        manufacturers.push(thisManu);
+    })
+    console.log(manuToShow);
+    
+    indexToShow = manufacturers.indexOf(manuToShow);
+    manufacturers.splice(indexToShow, 1);
+    console.log(manufacturers);
+    var divToShow = document.getElementById(manuToShow + "-planes");
+    divToShow.style.display = 'block';
+    for(var i = 0; i < manufacturers.length; i++) {
+        var divToHide = document.getElementById(manufacturers[i] + "-planes");
+        divToHide.style.display = 'none';
+    }
+}
+
 $(document).ready(function() {
 
     $('.game-select #ac').click(function() {
@@ -115,5 +136,10 @@ $(document).ready(function() {
         var thisButtonId = $(this).attr('class');
         console.log(thisButtonId);
         toggleAirlineButtons(thisButtonId);
+    })
+
+    $('#manu-buttons button').click(function() {
+        var thisButtonId = $(this).attr('class');
+        toggleAircraftButtons(thisButtonId);
     })
 });

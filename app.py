@@ -22,8 +22,11 @@ def setGame():
         session[varName] = val
         if(varName == "game"):
             print("HERE")
-            session.pop("start")
-            session.pop("end")
+            try:
+                session.pop("start")
+                session.pop("end")
+            except:
+                pass
         return {"result" : "success"}
     return {"result" : "failure"}
 
@@ -180,9 +183,21 @@ def aircraftSearch():
         else:
             manuDict[manu] = [plane]
     
-    print(manuDict)
     return render_template("chooseAircraft.j2",
                            startDateLabel = leftColumnData[0],
                            endDateLabel = leftColumnData[1],
                            game = leftColumnData[2],
                            manuDict = manuDict)
+
+@app.route("/showAircraft")
+def showAircraft():
+    leftColumnData = getLeftColumnInfo()
+    aircraft = request.args.get("aircraft", None)
+    if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
+        aircraftTable = fd.getAircraftTable(session['start'], session['end'], aircraft, session['game'])
+    return render_template("showAircraft.j2",
+                           startDateLabel = leftColumnData[0],
+                           endDateLabel = leftColumnData[1],
+                           game = leftColumnData[2],
+                           aircraftTable = aircraftTable,
+                           aircraft = aircraft)

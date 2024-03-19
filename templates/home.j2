@@ -7,12 +7,24 @@
             <p>Some of the fleet tools require specificying two dates to compare, but not all. All of them require you select a game though, so you should do that.</p>
             <div class="game-select">
                 <h3>Select the game you want to use:</h3>
-                <button type="button", id="ac">
-                    AC
-                </button>
-                <button type="button", id="mfc">
-                    MFC
-                </button>
+                {% if game is not none and game == 'AC'%}
+                    <button type="button", id="ac", class = "selected">
+                        AC
+                    </button>
+                {% else %}
+                    <button type="button", id="ac">
+                        AC
+                    </button>
+                {% endif %}
+                {% if game is not none and game == 'MFC'%}
+                    <button type="button", id="mfc", class = "selected">
+                        MFC
+                    </button>
+                {% else %}
+                    <button type="button", id="mfc">
+                        MFC
+                    </button>
+                {% endif %}
             </div>
             <div class="date-select">
                 <div class="select-start-date">
