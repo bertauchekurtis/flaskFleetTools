@@ -1,7 +1,5 @@
-from flask import Flask, render_template, session, request, redirect, url_for
+from flask import Flask, render_template, session, request
 import fleetData as fd
-from datetime import datetime
-import pandas as pd
 
 app = Flask(__name__)
 app.secret_key = 'very_secret_key'
@@ -22,6 +20,10 @@ def setGame():
     if(varName is not None and val is not None):
         print(varName, val)
         session[varName] = val
+        if(varName == "game"):
+            print("HERE")
+            session.pop("start")
+            session.pop("end")
         return {"result" : "success"}
     return {"result" : "failure"}
 
@@ -126,3 +128,61 @@ def discordMessage():
                            largestFleetsDf = largestFleetsDf,
                            fastestGrowingFleetsDf = fastestGrowingFleetsDf,
                            fastestShrinkingFleetsDf = fastestShrinkingFleetsDf)
+
+@app.route("/airline_search")
+def airlineSearch():
+    leftColumnData = getLeftColumnInfo()
+
+    letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    airlineDict = {}
+    for letter in letters:
+        airlineDict[letter] = []
+
+    
+    if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
+        allAirlines = fd.getAllAirlines(session['start'], session['end'], session['game'])
+        allAirlines = sorted(allAirlines)
+        for airline in allAirlines:
+            letter = airline.upper()[0]
+            airlineDict[letter].append(airline)
+
+    return render_template("chooseAirline.j2",
+                           startDateLabel = leftColumnData[0],
+                           endDateLabel = leftColumnData[1],
+                           game = leftColumnData[2],
+                           letters = letters,
+                           airlineDict = airlineDict)
+
+@app.route("/showAirline")
+def showAirline():
+    leftColumnData = getLeftColumnInfo()
+
+    airline = request.args.get("airline", None)
+    if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
+        airlineTable = fd.getAirlineTable(session['start'], session['end'], airline, session['game'])
+
+    return render_template("showAirline.j2",
+                    startDateLabel = leftColumnData[0],
+                    endDateLabel = leftColumnData[1],
+                    game = leftColumnData[2],
+                    airlinetable = airlineTable,
+                    airline = airline)
+
+@app.route("/aircraftSearch")
+def aircraftSearch():
+    leftColumnData = getLeftColumnInfo()
+    manuDict = {}
+    aircrafts = fd.getAllAircrafts(session['start'], session['end'], session['game'])
+    for plane in aircrafts:
+        manu = plane.split(" ")[0]
+        if manu in manuDict.keys():
+            manuDict[manu].append(plane)
+        else:
+            manuDict[manu] = [plane]
+    
+    print(manuDict)
+    return render_template("chooseAircraft.j2",
+                           startDateLabel = leftColumnData[0],
+                           endDateLabel = leftColumnData[1],
+                           game = leftColumnData[2],
+                           manuDict = manuDict)

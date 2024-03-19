@@ -1,0 +1,23 @@
+{% extends "index.j2" %}
+{% block content %}
+    {% if startDateLabel == endDateLabel %}
+        <p>The selected dates must be different to use this tool.</p>
+    {% else %}
+        <h1>Aircraft Search</h1>
+        <h3>Choose an Aircraft:</h3>
+        <div id = 'manu-buttons'>
+            {% for key in manuDict.keys() %}
+                <button class="{{key}}">{{key}}</button>
+            {% endfor %}
+        </div>
+        <div id = 'planes'>
+            {% for key in manuDict.keys() %}
+                <div id = '{{ key }}-planes' style = "display:block;">
+                    {% for plane in manuDict[key ]%}
+                        <button class="{{plane}}">{{plane}}</button>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

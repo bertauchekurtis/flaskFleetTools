@@ -1,0 +1,21 @@
+{% extends "index.j2" %}
+{% block content %}
+    <h1>{{ airline }}</h1>
+    <table>
+        <tr>
+            <td>Aircraft</td>
+            <td>Old Total</td>
+            <td>New Total</td>
+            <td>Change</td>
+        </tr>
+        {% for (index, old, new, change) in airlinetable.itertuples(name = None) %}
+            <tr>
+                <td>{{index}}</td>
+                <td>{{old}}</td>
+                <td>{{new}}</td>
+                <td>{{change}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <button onclick = "history.back();" style = "margin-top: 20px;">Back</button>
+{% endblock %}

@@ -26,6 +26,7 @@ button {
     color: white;
     border: none;
     transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
 .selected {
@@ -86,3 +87,12 @@ tr:hover {
     margin-left: 20px;
     margin-bottom: 20px;
 }
+
+#letter-buttons button {
+    margin: 20px;
+}
+
+#airlines button {
+    margin: 5px;
+}
+

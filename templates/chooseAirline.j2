@@ -1,0 +1,23 @@
+{% extends "index.j2" %}
+{% block content %}
+    {% if startDateLabel == endDateLabel %}
+        <p>The selected dates must be different to use this tool.</p>
+    {% else %}
+        <h1>Airline Search</h1>
+        <h3>Choose an Airline:</h3>
+        <div id = 'letter-buttons'>
+            {% for letter in letters %}
+                <button class="{{letter}}">{{letter}}</button>
+            {% endfor %}
+        </div>
+        <div id = 'airlines'>
+            {% for letter in letters %}
+                <div id = '{{ letter }}-airlines' style = "display:none">
+                    {% for airline in airlineDict[letter] %}
+                        <button class="{{airline}}" onclick = "location.href = '/showAirline?airline={{airline}}';">{{airline}}</button>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

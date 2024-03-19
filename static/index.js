@@ -42,7 +42,6 @@ function toggleAircraftTables(tableToShow) {
     var divToShow = document.getElementById(tableToShow);
     divToShow.style.display = 'block';
     for(var i = 0; i < tableids.length; i++) {
-        console.log(tableids[i]);
         var divToHide = document.getElementById(tableids[i]);
         divToHide.style.display = 'none';
     }
@@ -55,8 +54,21 @@ function toggleFleetTables(tableToShow) {
     var divToShow = document.getElementById(tableToShow);
     divToShow.style.display = 'block';
     for(var i = 0; i < tableids.length; i++) {
-        console.log(tableids[i]);
         var divToHide = document.getElementById(tableids[i]);
+        divToHide.style.display = 'none';
+    }
+}
+
+function toggleAirlineButtons(letterToShow) {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    //console.log("here");
+    indexToShow = letters.indexOf(letterToShow);
+    letters.splice(indexToShow, 1);
+    console.log(letterToShow + "-airlines");
+    var divToShow = document.getElementById(letterToShow + "-airlines");
+    divToShow.style.display = 'block';
+    for(var i = 0; i < letters.length; i++) {
+        var divToHide = document.getElementById(letters[i] + "-airlines");
         divToHide.style.display = 'none';
     }
 }
@@ -97,5 +109,11 @@ $(document).ready(function() {
     $('#fleet-tables-buttons button').click(function() {
         var thisButtonId = $(this).attr('class');
         toggleFleetTables(thisButtonId);
+    })
+
+    $('#letter-buttons button').click(function() {
+        var thisButtonId = $(this).attr('class');
+        console.log(thisButtonId);
+        toggleAirlineButtons(thisButtonId);
     })
 });

@@ -132,4 +132,65 @@ def createLargestShrinkingFleetsDf(largestFleetsDf: pd.DataFrame):
     df["Rank"] = df["Change"].rank(ascending = True, method = "max").astype(int)
     return df
 
+def getAllAirlines(startDate: datetime, endDate: datetime, game):
+    oldFileName = getFileName(startDate, game)
+    newFileName = getFileName(endDate, game)
+
+    oldData = pd.read_csv("./data/" + game + "/" + oldFileName)
+    newData = pd.read_csv("./data/" + game + "/" + newFileName)
+
+    allAirlines = oldData['Airline'].tolist() + newData['Airline'].tolist()
+    return list(set(allAirlines))
+
+def getAirlineTable(startDate: datetime, endDate: datetime, airline, game):
+    oldFileName = getFileName(startDate, game)
+    newFileName = getFileName(endDate, game)
+
+    oldData = pd.read_csv("./data/" + game + "/" + oldFileName)
+    newData = pd.read_csv("./data/" + game + "/" + newFileName)
+
+    oldData = oldData.loc[oldData['Airline'] == airline]
+    newData = newData.loc[newData['Airline'] == airline]
+    
+    oldData = oldData.reindex(sorted(oldData.columns), axis = 1)
+    newData = newData.reindex(sorted(newData.columns), axis = 1)
+
+    if oldData.empty:
+        oldData.loc[0] = [0] * len(oldData.columns)
+    if newData.empty:
+        newData.loc[0] = [0] * len(newData.columns)
+
+    oldData = oldData.drop('Airline', axis = 1)
+    newData = newData.drop('Airline', axis = 1)
+    oldData = oldData.reset_index(drop = True)
+    newData = newData.reset_index(drop = True)
+    diff = newData.astype(int) - oldData.astype(int)
+    
+    allData = pd.concat([oldData, newData, diff])
+    allData = allData.loc[:, (allData != 0).any(axis = 0)]
+    allData[airline] = ["Old", "New", "Change"]
+    allData.set_index(airline, inplace = True)
+    allData = allData.transpose()
+
+    if allData.empty:
+        allData.loc[0] = [0] * len(allData.columns)
+
+    return allData
+
+def getAllAircrafts(startDate: datetime, endDate: datetime, game):
+    oldFileName = getFileName(startDate, game)
+    newFileName = getFileName(endDate, game)
+
+    oldData = pd.read_csv("./data/" + game + "/" + oldFileName)
+    newData = pd.read_csv("./data/" + game + "/" + newFileName)
+
+    oldData = oldData.drop('Airline', axis = 1)
+    newData = newData.drop('Airline', axis = 1)
+
+    oldData = oldData.drop('Total', axis = 1)
+    newData = newData.drop('Total', axis = 1)
+
+    allAircrafts = oldData.columns.tolist() + newData.columns.tolist()
+    return sorted(list(set(allAircrafts)))
+
 
