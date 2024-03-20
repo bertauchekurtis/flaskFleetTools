@@ -77,14 +77,16 @@ stringData = today.strftime("%b-%d-%Y")
 #df = pd.read_csv("Dec-29-2022planeReport")
 # now we get the fleets
 # navigate to the airplane page
+sleep(2)
 element = driver.find_element(By.XPATH, "//li[@class='button left-tab user-specific-tab rivalsCanvasTab']/div/div")
 # button is hidden so use js to click
+sleep(2)
 driver.execute_script("$(arguments[0]).click();", element)
 sleep(5)
 
 # grab all the clickable airlines
 airlineTabs = driver.find_elements(By.XPATH, "//div[@id='rivalsTable']//div[@class='table-row clickable']")
-sleep(1)
+sleep(5)
 # setup df
 listOfPlaneTypes = df['Model'].tolist()
 listOfPlaneTypes.insert(0, "Total")
