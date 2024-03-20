@@ -50,9 +50,8 @@ def createCondensedDF(frame: pd.DataFrame):
     df = df[sorted(df.columns)]
     condensed = pd.DataFrame(columns = ['Aircraft', 'Total'])
     for column in df.columns:
-        condensed = condensed.append({'Aircraft': column,
-                                      'Total': df[column].sum()},
-                                      ignore_index = True)
+        condensed = pd.concat([condensed,pd.DataFrame.from_dict({'Aircraft': [column],
+                                      'Total': [df[column].sum()]})], ignore_index = True)
     return condensed
 
 def createRawCirculationChangesDF(oldCondensed: pd.DataFrame, newCondensed: pd.DataFrame):
@@ -213,9 +212,14 @@ def getAircraftTable(startDate: datetime, endDate: datetime, aircraft, game):
     combined['New Total'] = combined['New Total'].astype(int)
     combined['Change'] = combined['New Total'] - combined['Old Total']
     combined = combined.sort_values('New Total', ascending = False)
-    combined = combined.append({'Airline' : 'Total',
-                            'Old Total' : combined['Old Total'].sum(),
-                            'New Total' : combined['New Total'].sum(),
-                            'Change' : combined['Change'].sum()},
+    combined = pd.concat([combined, pd.DataFrame.from_dict({'Airline' : ['Total'],
+                            'Old Total' : [combined['Old Total'].sum()],
+                            'New Total' : [combined['New Total'].sum()],
+                            'Change' : [combined['Change'].sum()]})], 
                             ignore_index = True)
+    # combined = combined.append({'Airline' : 'Total',
+    #                         'Old Total' : combined['Old Total'].sum(),
+    #                         'New Total' : combined['New Total'].sum(),
+    #                         'Change' : combined['Change'].sum()},
+    #                         ignore_index = True)
     return(combined)
