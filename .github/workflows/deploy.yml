@@ -26,7 +26,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd urnextroute
+            cd flaskFleetTools
             sed -i 's#app.secret_key = '\''very_secret_key'\''#app.secret_key = '\''{{ secrets.SESSION }}'\''#g' app.py
       - name: Restart flask
         uses: appleboy/ssh-action@master
