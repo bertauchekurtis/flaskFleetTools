@@ -182,7 +182,7 @@ def returnAirlineHistory():
         for t in history:
             totals.append(int(t[0]))
             dates.append(fd.convertDateTimeToLabel(t[1]))
-    return(jsonify(totals = totals, dates = dates))
+    return(jsonify(totals = totals, dates = dates, details = details))
 
 @app.route("/aircraftSearch")
 def aircraftSearch():

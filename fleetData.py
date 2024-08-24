@@ -204,8 +204,20 @@ def getAirlineHistory(airline, game):
     non_zero = detailed_df.columns[(detailed_df != 0).any()]
     detailed_df = detailed_df[non_zero]
     detailed_df = detailed_df.sort_values(by = 'date')
-    print(detailed_df)
-    return sorted(airlineHistoryEntires, key = lambda x: x[1]), 0
+    # clean up early missing entries
+    airlineHistoryEntires = sorted(airlineHistoryEntires, key = lambda x: x[1])
+    
+    count = 0
+    curEntry = airlineHistoryEntires[0]
+    while(curEntry[0] == 0):
+        count += 1
+        airlineHistoryEntires.pop(0)
+        curEntry = airlineHistoryEntires[0]
+
+    detailed_df = detailed_df.iloc[count:,:]
+    detailed_df = detailed_df.drop(columns = ["Total", "Airline", "date"])
+    detailed_json = detailed_df.to_dict(orient = "list")
+    return airlineHistoryEntires, detailed_json
         
 
 def getAllAircrafts(startDate: datetime, endDate: datetime, game):

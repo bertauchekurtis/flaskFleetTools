@@ -4,17 +4,18 @@ window.onload = function(){
         console.log("Data gotted!");
         const totals = data["totals"];
         const dates = data["dates"];
-        console.log(totals);
+        const details = data["details"]
+        const datasets = []
+        datasets.push({label: 'Total Number of Aircraft', data: totals, borderWidth: 1})
+        for(const  [label, data] of Object.entries(details)){
+          datasets.push({label: label, data: data, borderWidth: 1})
+        }
 
         new Chart(ctx, {
             type: 'line',
             data: {
               labels: dates,
-              datasets: [{
-                label: 'Total Number of Aircraft',
-                data: totals,
-                borderWidth: 1
-              }]
+              datasets: datasets
             },
             options: {
               scales: {
