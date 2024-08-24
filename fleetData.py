@@ -21,12 +21,20 @@ def convertStringToDateTime(string):
     thisDateTime = datetime.strptime(string, "%b%d%Y")
     return thisDateTime
 
+def convertFileNameToDateTime(string):
+    thisDateTime = datetime.strptime(string[:11], "%b-%d-%Y")
+    return thisDateTime
+
 def convertDateTimeToLabel(date: datetime):
     return date.strftime("%b %d, %Y")
 
 def getFileName(date: datetime, game):
     fileName = date.strftime("%b-%d-%Y-") + game + "-fleetReport.csv"
     return fileName
+
+def getAllFiles(game):
+    files = os.listdir("./data/" + game)
+    return files
 
 def getCirculationDfs(startDate: datetime, endDate: datetime, game):
     oldFileName = getFileName(startDate, game)
@@ -175,6 +183,20 @@ def getAirlineTable(startDate: datetime, endDate: datetime, airline, game):
         allData.loc[0] = [0] * len(allData.columns)
 
     return allData
+
+def getAirlineHistory(airline, game):
+    allGameFiles = getAllFiles(game)
+    airlineHistoryEntires = []
+    for gameFile in allGameFiles:
+        df = pd.read_csv("./data/" + game + "/" + gameFile)
+        try:
+            thisTotal = df.loc[df['Airline'] == airline, 'Total'].values[0]
+            airlineHistoryEntires.append((thisTotal, convertFileNameToDateTime(gameFile)))
+        except:
+            airlineHistoryEntires.append((0, convertFileNameToDateTime(gameFile)))
+    
+    return sorted(airlineHistoryEntires, key = lambda x: x[1])
+        
 
 def getAllAircrafts(startDate: datetime, endDate: datetime, game):
     oldFileName = getFileName(startDate, game)

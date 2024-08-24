@@ -1,6 +1,6 @@
 {% extends "index.j2" %}
 {% block content %}
-    <h1>{{ airline }}</h1>
+    <h1 id="airlineName">{{ airline }}</h1>
     <table>
         <tr>
             <td>Aircraft</td>
@@ -18,4 +18,10 @@
         {% endfor %}
     </table>
     <button onclick = "history.back();" style = "margin-top: 20px;">Back</button>
+    <div>
+        <canvas id="airlineChart">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="../static/airlineHistory.js"></script>
+        </canvas>
+    </div>
 {% endblock %}

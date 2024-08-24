@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session, request, jsonify
 import fleetData as fd
 
 app = Flask(__name__)
@@ -163,13 +163,26 @@ def showAirline():
     airline = request.args.get("airline", None)
     if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
         airlineTable = fd.getAirlineTable(session['start'], session['end'], airline, session['game'])
-
+        history = fd.getAirlineHistory(airline, session['game'])
     return render_template("showAirline.j2",
                     startDateLabel = leftColumnData[0],
                     endDateLabel = leftColumnData[1],
                     game = leftColumnData[2],
                     airlinetable = airlineTable,
                     airline = airline)
+
+@app.route("/getAirlineHistory")
+def returnAirlineHistory():
+    leftColumnData = getLeftColumnInfo()
+    totals = []
+    dates = []
+    if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
+        airline = request.args.get("airline", None)
+        history = fd.getAirlineHistory(airline, session['game'])
+        for t in history:
+            totals.append(int(t[0]))
+            dates.append(fd.convertDateTimeToLabel(t[1]))
+    return(jsonify(totals = totals, dates = dates))
 
 @app.route("/aircraftSearch")
 def aircraftSearch():
