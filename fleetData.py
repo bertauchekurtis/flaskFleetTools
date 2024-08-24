@@ -187,15 +187,25 @@ def getAirlineTable(startDate: datetime, endDate: datetime, airline, game):
 def getAirlineHistory(airline, game):
     allGameFiles = getAllFiles(game)
     airlineHistoryEntires = []
+    airlineDetailEntries = []
     for gameFile in allGameFiles:
         df = pd.read_csv("./data/" + game + "/" + gameFile)
         try:
             thisTotal = df.loc[df['Airline'] == airline, 'Total'].values[0]
+            row = df.loc[df['Airline'] == airline].iloc[0]
+            row['date'] = convertFileNameToDateTime(gameFile)
+            airlineDetailEntries.append(row.to_dict())
             airlineHistoryEntires.append((thisTotal, convertFileNameToDateTime(gameFile)))
         except:
             airlineHistoryEntires.append((0, convertFileNameToDateTime(gameFile)))
-    
-    return sorted(airlineHistoryEntires, key = lambda x: x[1])
+            airlineDetailEntries.append({'date': convertFileNameToDateTime(gameFile)})
+    detailed_df = pd.DataFrame(airlineDetailEntries)
+    detailed_df = detailed_df.fillna(0)
+    non_zero = detailed_df.columns[(detailed_df != 0).any()]
+    detailed_df = detailed_df[non_zero]
+    detailed_df = detailed_df.sort_values(by = 'date')
+    print(detailed_df)
+    return sorted(airlineHistoryEntires, key = lambda x: x[1]), 0
         
 
 def getAllAircrafts(startDate: datetime, endDate: datetime, game):

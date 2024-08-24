@@ -178,7 +178,7 @@ def returnAirlineHistory():
     dates = []
     if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
         airline = request.args.get("airline", None)
-        history = fd.getAirlineHistory(airline, session['game'])
+        history, details = fd.getAirlineHistory(airline, session['game'])
         for t in history:
             totals.append(int(t[0]))
             dates.append(fd.convertDateTimeToLabel(t[1]))
