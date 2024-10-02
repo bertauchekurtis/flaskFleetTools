@@ -19,7 +19,12 @@
     </table>
     <button onclick = "history.back();" style = "margin-top: 20px;">Back</button>
     <div>
-        <canvas id="airlineChart">
+        <div id="airlineChartDiv" style="width:240px;height:240px">
+            <canvas id="airlineChart">
+        </div>
+        <div id="rawChartDiv" style="width:240px;height:240px">
+            <canvas id="rawChart">
+        </div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="../static/airlineHistory.js"></script>
         </canvas>

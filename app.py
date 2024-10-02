@@ -184,6 +184,20 @@ def returnAirlineHistory():
             dates.append(fd.convertDateTimeToLabel(t[1]))
     return(jsonify(totals = totals, dates = dates, details = details))
 
+@app.route("/getAirlineHistoryRawCap")
+def returnAirlineHistoryRawCap():
+    leftColumnData = getLeftColumnInfo()
+    dates = []
+    capstr = []
+    if(leftColumnData[0] is not None and leftColumnData[1] is not None and leftColumnData[2] is not None):
+        airline = request.args.get("airline", None)
+        history, caps = fd.getAirlineHistoryRawCap(airline, session['game'])
+        for t in history:
+            dates.append(fd.convertDateTimeToLabel(t[1]))
+        for cap in caps:
+            capstr.append(str(cap))
+    return(jsonify(dates = dates, caps = capstr))
+
 @app.route("/aircraftSearch")
 def aircraftSearch():
     leftColumnData = getLeftColumnInfo()

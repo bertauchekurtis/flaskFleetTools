@@ -218,6 +218,20 @@ def getAirlineHistory(airline, game):
     detailed_df = detailed_df.drop(columns = ["Total", "Airline", "date"])
     detailed_json = detailed_df.to_dict(orient = "list")
     return airlineHistoryEntires, detailed_json
+
+def getAirlineHistoryRawCap(airline, game):
+    _, detailed_dict = getAirlineHistory(airline, game)
+    print(detailed_dict.keys())
+    length = len(detailed_dict[next(iter(detailed_dict))])
+    caps = [0] * length
+    planeDetails = pd.read_csv("./typeData.csv")
+    for plane_type in detailed_dict.keys():
+        for i, entry in enumerate(detailed_dict[plane_type]):
+            CAP = planeDetails.loc[planeDetails['Name'] == plane_type, 'Capacity'].values[0]
+            caps[i] += CAP * entry
+    print(caps)
+    return _, caps
+    
         
 
 def getAllAircrafts(startDate: datetime, endDate: datetime, game):
