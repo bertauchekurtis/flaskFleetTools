@@ -24,7 +24,7 @@ jobs:
           ACUSERNAME:  ${{ secrets.ACUSERNAME }}
           ACPASSWORD:  ${{ secrets.ACPASSWORD }}
         run: |
-          python ./python/fetch_AC.py "$ACUSERNAME" "$ACPASSWORD"
+          python -u ./python/fetch_AC.py "$ACUSERNAME" "$ACPASSWORD"
       - name: Save CSV Files
         run: |
           git config user.name github-actions
