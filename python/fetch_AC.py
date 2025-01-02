@@ -130,7 +130,7 @@ stringData = today.strftime("%b-%d-%Y")
 # fleetdf.to_csv(path_or_buf = path, index = False, escapechar = ' ')
 
 sleep(10)
-element = driver.find_element(By.XPATH, "//li[@class='button left-tab user-specific-tab allianceCanvasTab']/div/div")
+element = driver.find_element(By.XPATH, "//li[@class='button left-tab allianceCanvasTab']/div/div")
 # button is hidden so use js to click
 sleep(10)
 driver.execute_script("$(arguments[0]).click();", element)
