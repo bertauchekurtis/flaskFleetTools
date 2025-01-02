@@ -157,14 +157,18 @@ for elem in allianceTabs:
 
 
     # get fleet elements
-    allianceMembers = driver.find_elements(By.XPATH, "//div[@id='allianceDetails']//div[@id='allianceMemberList']/div[@class='table-row clickable']/div[@class='cell']")
-    for i in range(0, len(allianceMembers), 4):
-        print(allianceMembers[i:i+3])
-        #print(fleetElements[i].text)
-        #print(fleetElements[i+1].text)
-        thisAllianceList.append(allianceMembers[i+1].text)
+    allianceMembers = driver.find_elements(By.XPATH, "//div[@id='allianceDetails']//div[@id='allianceMemberList']/div[@class='table-row clickable']//span//span")
+    for member in allianceMembers:
+        thisAllianceList.append(member.text)
+    # for i in range(0, len(allianceMembers)):
+    #     print(allianceMembers[i:i+3])
+    #     #print(fleetElements[i].text)
+    #     #print(fleetElements[i+1].text)
+    #     thisAllianceList.append(allianceMembers[i].text)
+
+    print(allianceMembers)
     
-    allianceDf = allianceDf.append({"alliance":allianceName,"members":','.join(thisAllianceList)})
+    allianceDf = allianceDf.append({"alliance":allianceName,"members":','.join(thisAllianceList)}, ignore_index=True)
 
 path = "./data/AC/" + stringData + "-AC-fleetReport_alliances.csv"
 allianceDf.to_csv(path_or_buf = path, index = False, escapechar = ' ')
