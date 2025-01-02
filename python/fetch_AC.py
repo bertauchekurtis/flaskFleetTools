@@ -166,7 +166,7 @@ for elem in allianceTabs:
     #     #print(fleetElements[i+1].text)
     #     thisAllianceList.append(allianceMembers[i].text)
 
-    print(allianceMembers)
+    print(thisAllianceList)
     
     allianceDf = allianceDf.append({"alliance":allianceName,"members":','.join(thisAllianceList)}, ignore_index=True)
 
