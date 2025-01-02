@@ -146,7 +146,7 @@ for elem in allianceTabs:
     # elem.click()
     driver.execute_script("arguments[0].click();", elem)
     sleep(2)
-    allianceName = driver.find_element(By.XPATH, "//div[@id='allianceDetails']//span[@class='allianceName']")
+    allianceName = driver.find_element(By.XPATH, "//div[@id='allianceDetails']//div[@class='cell value allianceName']")
     allianceName = allianceName.text
     print(allianceName)
 
